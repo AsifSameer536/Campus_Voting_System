@@ -1,5 +1,6 @@
 package com.asif.campusvoting.auth.controller;
 
+import ch.qos.logback.core.CoreConstants;
 import com.asif.campusvoting.auth.dto.LoginRequestDto;
 import com.asif.campusvoting.auth.dto.LoginResponseDto;
 import com.asif.campusvoting.auth.dto.RegisterRequestDto;
@@ -31,6 +32,8 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<LoginResponseDto> login(
             @Valid @RequestBody LoginRequestDto request) {
+
+        System.out.println("Login API HIT");
 
         return ResponseEntity.ok(authService.login(request));
     }
