@@ -1,7 +1,7 @@
 package com.asif.campusvoting.security.user;
 
 import com.asif.campusvoting.auth.entity.User;
-import org.jspecify.annotations.Nullable;
+import jakarta.annotation.Nullable;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;

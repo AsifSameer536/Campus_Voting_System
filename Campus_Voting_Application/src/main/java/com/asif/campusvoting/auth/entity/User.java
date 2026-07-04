@@ -35,7 +35,7 @@ public class User {
     @Column(nullable = false)
     private Role role;
 
-    @Column(nullable = false)
+    @Builder.Default
     private Boolean verified = false;
 
     @CreationTimestamp
