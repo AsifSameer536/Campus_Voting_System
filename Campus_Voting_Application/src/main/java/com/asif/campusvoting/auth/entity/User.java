@@ -21,8 +21,8 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne
-    @JoinColumn(name = "student_master_id", nullable = false, unique = true)
+    @OneToOne(optional = true)
+    @JoinColumn(name = "student_master_id", unique = true)
     private StudentMaster studentMaster;
 
     @Column(nullable = false, unique = true, length = 100)

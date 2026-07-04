@@ -39,6 +39,10 @@ public class CandidateServiceImpl implements CandidateService {
                 .orElseThrow(() ->
                         new UsernameNotFoundException("User not found"));
 
+        if (user.getStudentMaster() == null) {
+            throw new IllegalStateException("Only students can apply as candidates.");
+        }
+
         if (candidateRepository.existsByUser_Id(user.getId())) {
             throw new RuntimeException("You have already applied.");
         }
