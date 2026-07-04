@@ -1,4 +1,4 @@
-package com.asif.campusvoting.security;
+package com.asif.campusvoting.security.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
