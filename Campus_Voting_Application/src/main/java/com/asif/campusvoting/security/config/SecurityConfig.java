@@ -42,12 +42,25 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
 
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/auth/**").permitAll()
-                        .requestMatchers("/api/students/upload").permitAll()
 
+                        // Public APIs
+                        .requestMatchers(
+                                "/api/auth/**",
+                                "/api/students/upload"
+                        ).permitAll()
+
+                        // Swagger
+                        .requestMatchers(
+                                "/swagger-ui/**",
+                                "/swagger-ui.html",
+                                "/v3/api-docs/**"
+                        ).permitAll()
+
+                        // Admin APIs
                         .requestMatchers("/api/admin/**")
                         .hasAuthority("ADMIN")
 
+                        // Student & Admin APIs
                         .requestMatchers("/api/candidates/**")
                         .hasAnyAuthority("STUDENT", "ADMIN")
 
