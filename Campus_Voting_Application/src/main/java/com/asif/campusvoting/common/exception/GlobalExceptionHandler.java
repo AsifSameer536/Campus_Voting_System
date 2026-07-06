@@ -92,4 +92,20 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(error);
     }
 
+    @ExceptionHandler(VoteAlreadyCastException.class)
+    public ResponseEntity<ErrorResponse> handleVoteAlreadyCastException(
+            VoteAlreadyCastException ex,
+            HttpServletRequest request) {
+
+        ErrorResponse error = ErrorResponse.builder()
+                .timestamp(LocalDateTime.now())
+                .status(HttpStatus.BAD_REQUEST.value())
+                .error(HttpStatus.BAD_REQUEST.getReasonPhrase())
+                .message(ex.getMessage())
+                .path(request.getRequestURI())
+                .build();
+
+        return ResponseEntity.badRequest().body(error);
+    }
+
 }

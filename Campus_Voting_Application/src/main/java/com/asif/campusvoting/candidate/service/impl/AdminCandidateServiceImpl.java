@@ -6,6 +6,10 @@ import com.asif.campusvoting.candidate.entity.CandidateStatus;
 import com.asif.campusvoting.candidate.repository.CandidateRepository;
 import com.asif.campusvoting.candidate.service.AdminCandidateService;
 import com.asif.campusvoting.common.exception.CandidateNotFoundException;
+import com.asif.campusvoting.common.exception.ElectionNotFoundException;
+import com.asif.campusvoting.election.entity.Election;
+import com.asif.campusvoting.election.entity.ElectionStatus;
+import com.asif.campusvoting.election.repository.ElectionRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,15 +18,29 @@ import java.util.List;
 public class AdminCandidateServiceImpl implements AdminCandidateService {
 
     private final CandidateRepository candidateRepository;
+    private final ElectionRepository electionRepository;
 
-    public AdminCandidateServiceImpl(CandidateRepository candidateRepository) {
+    public AdminCandidateServiceImpl(
+            CandidateRepository candidateRepository,
+            ElectionRepository electionRepository) {
+
         this.candidateRepository = candidateRepository;
+        this.electionRepository = electionRepository;
     }
 
     @Override
     public List<CandidateResponseDto> getPendingCandidates() {
 
-        return candidateRepository.findByStatus(CandidateStatus.PENDING)
+        Election election = electionRepository
+                .findByStatus(ElectionStatus.ACTIVE)
+                .orElseThrow(() ->
+                        new ElectionNotFoundException("No active election found."));
+
+        return candidateRepository
+                .findByElectionAndStatus(
+                        election,
+                        CandidateStatus.PENDING
+                )
                 .stream()
                 .map(candidate -> CandidateResponseDto.builder()
                         .id(candidate.getId())
@@ -35,7 +53,6 @@ public class AdminCandidateServiceImpl implements AdminCandidateService {
                         .build())
                 .toList();
     }
-
 
     @Override
     public String approveCandidate(Long candidateId) {

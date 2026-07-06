@@ -1,6 +1,7 @@
 package com.asif.campusvoting.candidate.entity;
 
 import com.asif.campusvoting.auth.entity.User;
+import com.asif.campusvoting.election.entity.Election;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -19,8 +20,8 @@ public class Candidate {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne
-    @JoinColumn(name = "user_id", nullable = false, unique = true)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
     @Column(nullable = false)
@@ -51,4 +52,8 @@ public class Candidate {
     public void preUpdate() {
         updatedAt = LocalDateTime.now();
     }
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "election_id", nullable = false)
+    private Election election;
 }

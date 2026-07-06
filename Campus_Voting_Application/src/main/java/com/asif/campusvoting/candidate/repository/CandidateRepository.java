@@ -1,7 +1,9 @@
 package com.asif.campusvoting.candidate.repository;
 
+import com.asif.campusvoting.auth.entity.User;
 import com.asif.campusvoting.candidate.entity.Candidate;
 import com.asif.campusvoting.candidate.entity.CandidateStatus;
+import com.asif.campusvoting.election.entity.Election;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
@@ -14,4 +16,10 @@ public interface CandidateRepository extends JpaRepository<Candidate, Long> {
     List<Candidate> findByStatus(CandidateStatus status);
 
     boolean existsByUser_Id(Long userId);
+
+    List<Candidate> findByElectionAndStatus(
+            Election election,
+            CandidateStatus status);
+
+    boolean existsByUserAndElection(User user, Election election);
 }
